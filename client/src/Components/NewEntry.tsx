@@ -1,4 +1,28 @@
-export function NewEntry() {
+import { FormEvent, useState } from "react";
+import { type EntryType } from "./View";
+
+type Props = {
+  onSave: (entries: EntryType[])=> void;
+  entries: EntryType[];
+  onClick: (bool:boolean) => void;
+}
+
+export function NewEntry({onSave, entries, onClick}: Props) {
+  const [title, setTitle] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
+  const [notes, setNotes] = useState('');
+
+  function handleSave(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const newEntry: EntryType = {
+      entryId: 1,
+      title: title,
+      photoUrl: photoUrl,
+      notes: notes
+    }
+    onSave([...entries, newEntry]);
+  }
+
   return (
     <div className="container" data-view="entry-form">
       <div className="row">
@@ -6,7 +30,7 @@ export function NewEntry() {
           <h1 id="formH1">New Entry</h1>
         </div>
       </div>
-      <form id="entryForm">
+      <form id="entryForm" onSubmit={handleSave}>
         <div className="row margin-bottom-1">
           <div className="column-half">
             <img
@@ -26,6 +50,8 @@ export function NewEntry() {
               type="text"
               id="formTitle"
               name="formTitle"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <label className="margin-bottom-1 d-block" htmlFor="photoUrl">
               Photo URL
@@ -36,6 +62,8 @@ export function NewEntry() {
               type="text"
               id="formURL"
               name="formURL"
+              value={photoUrl}
+              onChange={(e) => setPhotoUrl(e.target.value)}
             />
           </div>
         </div>
@@ -50,7 +78,9 @@ export function NewEntry() {
               name="formNotes"
               id="formNotes"
               cols={30}
-              rows={10}></textarea>
+              rows={10}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}></textarea>
           </div>
         </div>
         <div className="row">
@@ -61,7 +91,7 @@ export function NewEntry() {
               id="deleteEntry">
               Delete Entry
             </button>
-            <button className="input-b-radius text-padding purple-background white-text">
+            <button className="input-b-radius text-padding purple-background white-text" type="submit" onClick={()=>onClick(true)}>
               SAVE
             </button>
           </div>

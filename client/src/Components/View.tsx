@@ -12,6 +12,7 @@ export type EntryType = {
 
 type Props = {
   showEntries: boolean;
+  onClick: (bool: boolean)=> void;
 };
 
 const testEntries: EntryType[] = [
@@ -23,13 +24,15 @@ const testEntries: EntryType[] = [
   {entryId: 6, title: "React", photoUrl: "adsf", notes: "hello"},
 ]
 
-export function Views({ showEntries }: Props) {
+export function Views({ showEntries, onClick }: Props) {
   const [entries, setEntries] = useState<EntryType[]>(testEntries);
-  setEntries(testEntries);
+    const [showUpdate, setShowUpdate] = useState(false);
+
+
 
   return (
     <>
-      <main>{showEntries ? <Entries entries={entries}/> : <NewEntry />}</main>
+      <main>{showEntries ? <Entries  onClick={onClick} entries={entries}/> : <NewEntry onClick={onClick} onSave={setEntries} entries={entries}/>}</main>
       <DeleteEntryModal />
     </>
   );

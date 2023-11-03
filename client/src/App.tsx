@@ -7,8 +7,8 @@ function App() {
   const [showEntries, setShowEntries] = useState(true);
   return (
     <div className="light-gray">
-      <Header onEntryClick={() => setShowEntries(!showEntries)} />
-      <Views showEntries={showEntries} />
+      <Header onEntryClick={() => setShowEntries(true)} />
+      <Views showEntries={showEntries} onClick={setShowEntries}/>
     </div>
   );
 }
