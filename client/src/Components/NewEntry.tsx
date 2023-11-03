@@ -1,26 +1,28 @@
 import { FormEvent, useState } from "react";
-import { type EntryType } from "./View";
+import { type Entry } from '../data';
 
 type Props = {
-  onSave: (entries: EntryType[])=> void;
-  entries: EntryType[];
+  onSave: (entries: Entry[]) => void;
+  entries: Entry[];
   onClick: (bool:boolean) => void;
+  currentEntry: Entry | undefined;
 }
 
-export function NewEntry({onSave, entries, onClick}: Props) {
-  const [title, setTitle] = useState('');
-  const [photoUrl, setPhotoUrl] = useState('');
-  const [notes, setNotes] = useState('');
+export function NewEntry({ onSave, entries, onClick, currentEntry }: Props) {
+  const [title, setTitle] = useState(currentEntry?.title ?? '');
+  const [photoUrl, setPhotoUrl] = useState(currentEntry?.photoUrl ?? '');
+  const [notes, setNotes] = useState(currentEntry?.notes ?? '');
 
   function handleSave(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newEntry: EntryType = {
-      entryId: 1,
+    const newEntry: Entry = {
+      entryId: 55,
       title: title,
       photoUrl: photoUrl,
       notes: notes
     }
     onSave([...entries, newEntry]);
+    onClick(true);
   }
 
   return (
@@ -41,7 +43,7 @@ export function NewEntry({onSave, entries, onClick}: Props) {
             />
           </div>
           <div className="column-half">
-            <label className="margin-bottom-1 d-block" htmlFor="title">
+            <label className="margin-bottom-1 d-block" htmlFor="formTitle">
               Title
             </label>
             <input
@@ -53,7 +55,7 @@ export function NewEntry({onSave, entries, onClick}: Props) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <label className="margin-bottom-1 d-block" htmlFor="photoUrl">
+            <label className="margin-bottom-1 d-block" htmlFor="formURL">
               Photo URL
             </label>
             <input
@@ -85,13 +87,14 @@ export function NewEntry({onSave, entries, onClick}: Props) {
         </div>
         <div className="row">
           <div className="column-full d-flex justify-between">
-            <button
-              className="invisible delete-entry-button"
-              type="button"
-              id="deleteEntry">
-              Delete Entry
-            </button>
-            <button className="input-b-radius text-padding purple-background white-text" type="submit" onClick={()=>onClick(true)}>
+             {currentEntry !== undefined && <button
+                className="invisible delete-entry-button"
+                type="button"
+                id="deleteEntry">
+                Delete Entry
+              </button>
+            }
+            <button className="input-b-radius text-padding purple-background white-text" type="submit">
               SAVE
             </button>
           </div>

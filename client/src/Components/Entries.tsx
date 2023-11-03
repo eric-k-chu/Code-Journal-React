@@ -1,15 +1,13 @@
-import { type EntryType } from "./View";
 import { Entry } from "./Entry";
-import { useState } from "react";
+import { type Entry as EntryType } from "../data";
 
 type Props = {
   entries: EntryType[];
-  onClick: (bool:boolean)=> void;
-  showUpdate: boolean;
-  setShowUpdate: ()=> void;
+  onNewEntryClick: (bool:boolean)=> void;
+  onSetCurrentEntry: (entry: EntryType) => void | undefined;
 }
 
-export function Entries({ entries, onClick, showUpdate, setShowUpdate }: Props) {
+export function Entries({ entries, onNewEntryClick, onSetCurrentEntry }: Props) {
 
 
   return (
@@ -18,7 +16,7 @@ export function Entries({ entries, onClick, showUpdate, setShowUpdate }: Props) 
         <div className="column-full d-flex justify-between align-center">
           <h1>Entries</h1>
           <h3>
-            <a id="formLink" className="white-text form-link" href="#" onClick={()=>onClick(false)}>
+            <a id="formLink" className="white-text form-link" href="#" onClick={() => onNewEntryClick(false)}>
               NEW
             </a>
           </h3>
@@ -27,7 +25,7 @@ export function Entries({ entries, onClick, showUpdate, setShowUpdate }: Props) 
       <div className="row">
         <div className="column-full">
           <ul className="entry-ul" id="entryUl">
-            {entries.map(entries => <Entry key={entries.entryId} title={entries.title} photoUrl={entries.photoUrl} notes={entries.notes} onUpdateClick={setShowUpdate}/>)}
+            {entries.map(entry => <Entry key={entry.entryId} entry={entry} onSetCurrentEntry={() => onSetCurrentEntry(entry)}/>)}
           </ul>
         </div>
       </div>

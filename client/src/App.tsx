@@ -6,7 +6,7 @@ import { useState } from "react";
 function App() {
   const [showEntries, setShowEntries] = useState(true);
   return (
-    <div className="light-gray">
+    <div>
       <Header onEntryClick={() => setShowEntries(true)} />
       <Views showEntries={showEntries} onClick={setShowEntries}/>
     </div>
