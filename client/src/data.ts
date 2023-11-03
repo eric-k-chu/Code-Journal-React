@@ -43,7 +43,7 @@ export function addEntry(entry: UnsavedEntry): Entry {
     ...entry,
     entryId: data.nextEntryId++,
   };
-  data.entries.unshift(newEntry);
+  data.entries.push(newEntry);
   writeData(data);
   return newEntry;
 }

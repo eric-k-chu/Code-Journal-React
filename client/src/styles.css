@@ -6,6 +6,10 @@ body {
   margin: 0;
 }
 
+i:hover {
+  cursor: pointer;
+}
+
 
 .header {
   background-color: #562b81;
@@ -171,6 +175,10 @@ body {
 
 .light-gray {
   background-color: #f0f0f0;
+}
+
+.px-5 {
+  padding: 0 0.75rem;
 }
 
 @media screen and (width >= 768px) {

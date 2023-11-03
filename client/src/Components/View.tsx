@@ -1,8 +1,7 @@
-import { NewEntry } from './NewEntry';
+import { EntryForm } from './EntryForm';
 import { Entries } from './Entries';
-import { DeleteEntryModal } from './DeleteEntryModal';
 import { useState } from 'react';
-import { Entry } from '../data';
+import { Entry, readEntries } from '../data';
 
 type Props = {
   showEntries: boolean;
@@ -10,7 +9,7 @@ type Props = {
 };
 
 export function Views({ showEntries, onClick }: Props) {
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState<Entry[]>(readEntries());
   const [currentEntry, setCurrentEntry] = useState<Entry>();
 
   return (
@@ -23,15 +22,15 @@ export function Views({ showEntries, onClick }: Props) {
             onSetCurrentEntry={setCurrentEntry}
           />
         ) : (
-          <NewEntry
-            onClick={onClick}
+          <EntryForm
+            onNewEntryClick={onClick}
             onSave={setEntries}
             entries={entries}
             currentEntry={currentEntry}
+            setCurrentEntry={setCurrentEntry}
           />
         )}
       </main>
-      <DeleteEntryModal />
     </>
   );
 }
