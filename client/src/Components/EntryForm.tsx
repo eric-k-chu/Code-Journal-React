@@ -58,7 +58,7 @@ export function EntryForm({ currentEntry, onEntryFormOpen }: Props) {
                 src={
                   photoUrl ? photoUrl : 'images/placeholder-image-square.jpg'
                 }
-                alt="image of entry image"
+                alt={photoUrl ? photoUrl : 'placeholder image'}
               />
             </div>
             <div className="column-half">
