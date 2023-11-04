@@ -1,9 +1,9 @@
 type Props = {
   setShowDelete: () => void;
-  onDelete: () => void;
+  onDeleteEntry: () => void;
 }
 
-export function DeleteEntryModal({ setShowDelete, onDelete }: Props) {
+export function DeleteEntryModal({ setShowDelete, onDeleteEntry }: Props) {
   return (
     <article>
       <div
@@ -19,7 +19,7 @@ export function DeleteEntryModal({ setShowDelete, onDelete }: Props) {
             </button>
             <button
               className="modal-button red-background white-text"
-              id="confirmButton" onClick={onDelete}>
+              id="confirmButton" onClick={onDeleteEntry}>
               Confirm
             </button>
           </div>

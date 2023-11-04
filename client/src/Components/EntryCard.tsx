@@ -1,18 +1,11 @@
-import { type Entry as EntryType } from "../data";
+import { type Entry } from "../data";
+import { type EntryFormProp } from '../App';
 
-type Props = {
-  entry: EntryType;
-  onSetCurrentEntry: () => void;
-  onEditEntryClick: () => void;
+type Props = EntryFormProp & {
+  entry: Entry;
 }
 
-export function Entry({ entry, onSetCurrentEntry, onEditEntryClick }: Props ) {
-
-  function handleEdit(): void {
-    onSetCurrentEntry();
-    onEditEntryClick();
-  }
-
+export function EntryCard({ entry, onEntryFormOpen }: Props ) {
   return (
     <li>
       <div className="row">
@@ -23,7 +16,7 @@ export function Entry({ entry, onSetCurrentEntry, onEditEntryClick }: Props ) {
           <div className="row">
             <div className="column-full d-flex justify-between align-center">
               <h3>{entry.title}</h3>
-              <i className="fa-solid fa-pencil" onClick={handleEdit} />
+              <i className="fa-solid fa-pencil" onClick={() => onEntryFormOpen(entry)} />
             </div>
           </div>
           <p className="px-5">{entry.notes}</p>

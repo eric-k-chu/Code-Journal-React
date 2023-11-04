@@ -1,51 +1,41 @@
-import { DeleteEntryModal } from "./DeleteEntryModal";
-import { FormEvent, useState } from "react";
-import { addEntry, updateEntry, type UnsavedEntry, type Entry, readEntries, removeEntry } from "../data";
+import { DeleteEntryModal } from './DeleteEntryModal';
+import { FormEvent, useState } from 'react';
+import {
+  addEntry,
+  updateEntry,
+  removeEntry,
+  type UnsavedEntry,
+  type Entry,
+} from '../data';
+import { type EntryFormProp } from '../App';
 
-type Props = {
-  onSave: (entries: Entry[]) => void;
-  entries: Entry[];
-  onNewEntryClick: (bool:boolean) => void;
+type Props = EntryFormProp & {
   currentEntry: Entry | undefined;
-  setCurrentEntry: (entry: Entry | undefined) => void;
-}
+};
 
-export function EntryForm({ onSave, entries, onNewEntryClick, currentEntry, setCurrentEntry }: Props) {
+export function EntryForm({ currentEntry, onEntryFormOpen }: Props) {
   const [title, setTitle] = useState(currentEntry?.title ?? '');
   const [photoUrl, setPhotoUrl] = useState(currentEntry?.photoUrl ?? '');
   const [notes, setNotes] = useState(currentEntry?.notes ?? '');
   const [showDelete, setShowDelete] = useState(false);
 
-  function handleSave(e: FormEvent<HTMLFormElement>): void {
+  function handleSubmitEntry(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
+    const unsavedEntry: UnsavedEntry = { title, photoUrl, notes };
+
     if (currentEntry === undefined) {
-      const newEntry: UnsavedEntry = {
-        title: title,
-        photoUrl: photoUrl,
-        notes: notes
-      }
-      onSave([...entries, addEntry(newEntry)]);
-      onNewEntryClick(true);
+      addEntry(unsavedEntry);
     } else {
-      const updatedEntry: Entry = {
-        entryId: currentEntry.entryId,
-        title: title,
-        photoUrl: photoUrl,
-        notes: notes,
-      };
-      setCurrentEntry(undefined);
-      updateEntry(updatedEntry);
-      onSave(readEntries());
-      onNewEntryClick(true);
+      updateEntry({ entryId: currentEntry.entryId, ...unsavedEntry } as Entry);
     }
+    onEntryFormOpen(null);
   }
 
-  function handleDelete(): void {
+  function handleDeleteEntry(): void {
     if (currentEntry) {
       removeEntry(currentEntry.entryId);
-      onSave(readEntries());
       setShowDelete(false);
-      onNewEntryClick(true);
+      onEntryFormOpen(null);
     }
   }
 
@@ -59,7 +49,7 @@ export function EntryForm({ onSave, entries, onNewEntryClick, currentEntry, setC
             </h1>
           </div>
         </div>
-        <form id="entryForm" onSubmit={handleSave}>
+        <form id="entryForm" onSubmit={handleSubmitEntry}>
           <div className="row margin-bottom-1">
             <div className="column-half">
               <img
@@ -134,7 +124,12 @@ export function EntryForm({ onSave, entries, onNewEntryClick, currentEntry, setC
           </div>
         </form>
       </div>
-      {showDelete && <DeleteEntryModal setShowDelete={() => setShowDelete(false)} onDelete={() => handleDelete()}/>}
+      {showDelete && (
+        <DeleteEntryModal
+          setShowDelete={() => setShowDelete(false)}
+          onDeleteEntry={handleDeleteEntry}
+        />
+      )}
     </>
   );
 }

@@ -1,33 +1,29 @@
 import { EntryForm } from './EntryForm';
 import { Entries } from './Entries';
-import { useState } from 'react';
-import { Entry, readEntries } from '../data';
+import { type Entry, readEntries } from '../data';
+import { type EntryFormProp } from '../App';
 
-type Props = {
-  showEntries: boolean;
-  onClick: (bool: boolean) => void;
+type Props = EntryFormProp & {
+  isEntriesShown: boolean;
+  currentEntry: Entry | undefined;
 };
 
-export function Views({ showEntries, onClick }: Props) {
-  const [entries, setEntries] = useState<Entry[]>(readEntries());
-  const [currentEntry, setCurrentEntry] = useState<Entry>();
+export function Views({
+  isEntriesShown,
+  currentEntry,
+  onEntryFormOpen,
+}: Props) {
+  const entries = readEntries();
 
   return (
     <>
       <main>
-        {showEntries ? (
-          <Entries
-            onNewEntryClick={onClick}
-            entries={entries}
-            onSetCurrentEntry={setCurrentEntry}
-          />
+        {isEntriesShown ? (
+          <Entries entries={entries} onEntryFormOpen={onEntryFormOpen} />
         ) : (
           <EntryForm
-            onNewEntryClick={onClick}
-            onSave={setEntries}
-            entries={entries}
             currentEntry={currentEntry}
-            setCurrentEntry={setCurrentEntry}
+            onEntryFormOpen={onEntryFormOpen}
           />
         )}
       </main>

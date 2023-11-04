@@ -1,8 +1,8 @@
-type Props = {
-  onEntryClick: () => void;
-}
+import { type EntryFormProp } from '../App';
 
-export function Header({ onEntryClick }: Props) {
+type Props = EntryFormProp;
+
+export function Header({ onEntryFormOpen }: Props) {
   return (
     <header className="header purple-background">
       <div className="container">
@@ -10,7 +10,7 @@ export function Header({ onEntryClick }: Props) {
           <div className="column-full d-flex align-center">
             <h1 className="white-text">Code Journal</h1>
             <h3>
-              <a id="entriesLink" className="entries-link white-text" href="#" onClick={onEntryClick}>
+              <a id="entriesLink" className="entries-link white-text" href="#" onClick={() => onEntryFormOpen(null)}>
                 Entries
               </a>
             </h3>

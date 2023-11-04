@@ -1,17 +1,25 @@
-import { Entry } from './Entry';
-import { type Entry as EntryType } from '../data';
+import { EntryCard } from './EntryCard';
+import { type Entry } from '../data';
+import { type EntryFormProp } from '../App';
 
-type Props = {
-  entries: EntryType[];
-  onNewEntryClick: (bool: boolean) => void;
-  onSetCurrentEntry: (entry: EntryType) => void | undefined;
+type Props = EntryFormProp & {
+  entries: Entry[];
 };
 
-export function Entries({
-  entries,
-  onNewEntryClick,
-  onSetCurrentEntry,
-}: Props) {
+export function Entries({ entries, onEntryFormOpen }: Props) {
+  const entriesToDisplay =
+    entries.length > 0 ? (
+      entries.map((entry) => (
+        <EntryCard
+          key={entry.entryId}
+          entry={entry}
+          onEntryFormOpen={onEntryFormOpen}
+        />
+      ))
+    ) : (
+      <li>You have no entries.</li>
+    );
+
   return (
     <div className="container" data-view="entries">
       <div className="row">
@@ -22,7 +30,7 @@ export function Entries({
               id="formLink"
               className="white-text form-link"
               href="#"
-              onClick={() => onNewEntryClick(false)}>
+              onClick={() => onEntryFormOpen(undefined)}>
               NEW
             </a>
           </h3>
@@ -31,14 +39,7 @@ export function Entries({
       <div className="row">
         <div className="column-full">
           <ul className="entry-ul" id="entryUl">
-            {entries.map((entry) => (
-              <Entry
-                key={entry.entryId}
-                entry={entry}
-                onSetCurrentEntry={() => onSetCurrentEntry(entry)}
-                onEditEntryClick={() => onNewEntryClick(false)}
-              />
-            ))}
+            {entriesToDisplay}
           </ul>
         </div>
       </div>
