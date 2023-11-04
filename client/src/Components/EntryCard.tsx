@@ -10,7 +10,7 @@ export function EntryCard({ entry, onEntryFormOpen }: Props ) {
     <li>
       <div className="row">
         <div className="column-half">
-          <img className="input-b-radius form-image" src={entry.photoUrl} />
+          <img className="input-b-radius form-image" src={entry.photoUrl} alt={entry.photoUrl}/>
         </div>
         <div className="column-half">
           <div className="row">
