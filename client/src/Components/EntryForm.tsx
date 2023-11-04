@@ -126,7 +126,7 @@ export function EntryForm({ currentEntry, onEntryFormOpen }: Props) {
       </div>
       {showDelete && (
         <DeleteEntryModal
-          setShowDelete={() => setShowDelete(false)}
+          onCancelDelete={() => setShowDelete(false)}
           onDeleteEntry={handleDeleteEntry}
         />
       )}

@@ -1,9 +1,9 @@
 type Props = {
-  setShowDelete: () => void;
+  onCancelDelete: () => void;
   onDeleteEntry: () => void;
 }
 
-export function DeleteEntryModal({ setShowDelete, onDeleteEntry }: Props) {
+export function DeleteEntryModal({ onCancelDelete, onDeleteEntry }: Props) {
   return (
     <article>
       <div
@@ -14,7 +14,7 @@ export function DeleteEntryModal({ setShowDelete, onDeleteEntry }: Props) {
             <p>Are you sure you want to delete this entry?</p>
           </div>
           <div className="column-full d-flex justify-between">
-            <button className="modal-button" id="cancelButton" onClick={setShowDelete}>
+            <button className="modal-button" id="cancelButton" onClick={onCancelDelete}>
               Cancel
             </button>
             <button
