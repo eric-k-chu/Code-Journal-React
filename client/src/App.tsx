@@ -1,5 +1,5 @@
 import { Header } from './Components/Header';
-import { Views } from './Components/View';
+import { Views } from './Components/Views';
 import { useState } from 'react';
 import { type Entry } from './data';
 import './styles.css';
